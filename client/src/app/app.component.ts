@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import * as io from 'socket.io-client';
 import Message from '../models/Message';
 import User from '../models/User';
+import {timer} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ export class AppComponent implements OnInit {
   username: string;
   message: string;
   messages: Message[] = [];
+  messagesDom: any;
   user: User;
   socket: any;
 
@@ -22,20 +24,38 @@ export class AppComponent implements OnInit {
     this.socket.on('chat', (data) => {
       this.messages.push(new Message(data.message, new User(data.id, data.username), new Date()));
       this.message = '';
+      const timerSource = timer(500);
+      timerSource.subscribe(() => {
+        this.messagesDom.scrollTop = this.messagesDom.scrollHeight;
+      });
+    });
+    this.fixMessagesHeight();
+  }
+
+  fixMessagesHeight() {
+    document.addEventListener('DOMContentLoaded', () => {
+      const msg = document.getElementById('sendMessageForm');
+      this.messagesDom = document.getElementsByClassName('send-msg-form')[0];
+      this.messagesDom.style.height = window.innerHeight - msg.offsetHeight + 'px';
+      this.messagesDom.style.maxHeight = window.innerHeight - msg.offsetHeight + 'px';
     });
   }
 
   send() {
-    this.socket.emit('chat', {
-      username: this.username,
-      message: this.message,
-      id: this.id
-    });
+    if (this.message !== '') {
+      this.socket.emit('chat', {
+        username: this.username,
+        message: this.message,
+        id: this.id
+      });
+    }
   }
 
   chooseUsername(username) {
-    this.username = username.value;
-    this.user = new User(this.id, this.username);
+    if (username !== '') {
+      this.username = username.value;
+      this.user = new User(this.id, this.username);
+    }
   }
 
   generateId(): string {
