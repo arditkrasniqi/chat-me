@@ -9,7 +9,6 @@ import User from '../models/User';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'app';
   id: string;
   username: string;
   message: string;
@@ -39,11 +38,11 @@ export class AppComponent implements OnInit {
     this.user = new User(this.id, this.username);
   }
 
-  generateId() {
+  generateId(): string {
     let text = '';
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-    for (let i = 0; i < 5; i++){
+    for (let i = 0; i < 5; i++) {
       text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
     return text;
