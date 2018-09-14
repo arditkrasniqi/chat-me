@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
     this.id = this.generateId();
     this.socket = io.connect('http://localhost:9000');
     this.socket.on('chat', (data) => {
-      this.messages.push(new Message(data.message, new User(data.id, data.username)));
+      this.messages.push(new Message(data.message, new User(data.id, data.username), new Date()));
       this.message = '';
     });
   }

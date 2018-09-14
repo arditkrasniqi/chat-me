@@ -1,6 +1,6 @@
 export default class User {
-  id: string;
-  username: string;
+  public id: string;
+  public username: string;
 
   constructor(id: string, username: string) {
     this.id = id;

@@ -33,4 +33,13 @@
   border-radius:3px;
   color:white;
   background:#28abe3;
+  word-break: break-all;
+}
+.msg p{
+  margin-bottom:-6px;
+  text-align:left;
+}
+.msg-time{
+  font-size: 11px;
+  font-style: italic;
 }

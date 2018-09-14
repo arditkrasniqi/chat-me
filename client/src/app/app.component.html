@@ -19,7 +19,10 @@
     <br>
     <div *ngFor="let message of messages" [class.text-right]="message.user.id === id">
       <p class="user">{{message.user.username}}</p>
-      <div class="msg" [class.orange]="message.user.id === id">{{message.message}}</div>
+      <div class="msg" [class.orange]="message.user.id === id">
+        <p>{{message.message}}</p>
+        <span class="msg-time">{{message.getTime()}}</span>
+      </div>
     </div>
   </div>
 </div>
