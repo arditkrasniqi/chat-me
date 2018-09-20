@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as io from 'socket.io-client';
 import Message from '../models/Message';
 import User from '../models/User';
-import {timer} from 'rxjs';
+import { timer } from 'rxjs';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.generateId();
-    this.socket = io.connect('http://localhost:9000');
+    this.socket = io.connect(environment.socket_connect);
     this.socket.on('chat', (data) => {
       this.messages.push(new Message(data.message, new User(data.id, data.username), new Date()));
       this.message = '';
